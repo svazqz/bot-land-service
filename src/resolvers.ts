@@ -1,4 +1,4 @@
-import pets from './database';
+import pets from './db/database';
 import { randomUUID } from 'crypto';
 
 type Pet = {
