@@ -1,9 +1,8 @@
 const pets: {
   id: string;
   name: string;
-  age: number;
-  pictureUri: string;
-  ownerName: string;
+  description: string;
+  flow: string;
 }[] = [];
 
 export default pets;

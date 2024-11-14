@@ -1,69 +1,64 @@
-import pets from './db/database';
-import { randomUUID } from 'crypto';
+import bots from './db/database';
+import { createAndDeployService } from './consumers/createAndDeployService';
+import { getProjectInfo } from './consumers/getProjectInfo';
 
-type Pet = {
+type Bot = {
   id: string;
   name: string;
-  age: number;
-  pictureUri: string;
-  ownerName: string;
+  description: string;
+  flow: string;
 };
 
-const getPet = (args: { id: string }): Pet | undefined => {
-  return pets.find((pet) => pet.id === args.id);
+const getBot = (args: { id: string }): Bot | undefined => {
+  return bots.find((bot) => bot.id === args.id);
 };
 
-const getPets = (): Pet[] => {
-  return pets;
+const getBots = async (): Promise<Bot[]> => {
+  const data = await getProjectInfo();
+  console.log(data);
+  return bots;
 };
 
-const createPet = (args: {
-  name: string;
-  age: number;
-  pictureUri: string;
-  ownerName: string;
-}): Pet => {
-  // generate randon uuid for pet object
-  const generatedId = randomUUID().toString();
-  // create pet object and save
-  const pet = { id: generatedId, ...args };
-  pets.push(pet);
-  return pet;
+const createBot = async (args: Omit<Bot, 'id'>): Promise<Bot | undefined> => {
+  const id = await createAndDeployService(
+    process.env.RAILWAY_PROJECT || '',
+    process.env.GITHUB_REPOSITORY || '',
+  );
+
+  if (id) {
+    // create pet object and save
+    const bot = { id: '', ...args };
+    bots.push(bot);
+    return bot;
+  }
 };
 
-const updatePet = (args: {
-  id: string;
-  name?: string;
-  age?: number;
-  pictureUri?: string;
-  ownerName?: string;
-}): Pet => {
+const updateBot = (args: Omit<Bot, 'name'>): Bot => {
   // loop through pets array and get object of pet
-  const index = pets.findIndex((pet) => pet.id === args.id);
-  const pet = pets[index];
+  const index = bots.findIndex((bot) => bot.id === args.id);
+  const bot = bots[index];
 
   // update field if it is passed as an argument
-  if (args.age) pet.age = args.age;
-  if (args.name) pet.name = args.name;
-  if (args.pictureUri) pet.pictureUri = args.pictureUri;
+  if (args.description) bot.description = args.description;
+  if (args.flow) bot.flow = args.flow;
 
-  return pet;
+  return bot;
 };
 
-const deletePet = (args: { id: string }): string => {
+const deleteBot = (args: Pick<Bot, 'id'>): string => {
   // loop through pets array and delete pet with id
-  const index = pets.findIndex((pet) => pet.id === args.id);
+  const index = bots.findIndex((bot) => bot.id === args.id);
   if (index !== -1) {
-    pets.splice(index, 1);
+    bots.splice(index, 1);
   }
 
   return args.id;
 };
 
 export const root = {
-  getPet,
-  getPets,
-  createPet,
-  updatePet,
-  deletePet,
+  getBot,
+  getBots,
+  createBot,
+  updateBot,
+  deleteBot,
 };

@@ -1,29 +1,17 @@
-type Pet {
+type Bot {
   id: ID!
   name: String!
-  age: Int!
-  pictureUri: String
-  ownerName: String!
+  description: String!
+  flow: String!
 }
 
 type Query {
-  getPets: [Pet]
-  getPet(id: ID!): Pet
+  getBots: [Bot]
+  getBot(id: ID!): Bot
 }
 
 type Mutation {
-  createPet(
-    name: String!
-    age: Int!
-    pictureUri: String
-    ownerName: String!
-  ): Pet!
-  updatePet(
-    id: ID!
-    name: String
-    age: Int
-    pictureUri: String
-    ownerName: String
-  ): Pet!
+  createBot(name: String!, description: String!, flow: String!): Bot!
+  updateBot(description: String!, flow: String!): Bot!
   deletePet(id: ID!): ID!
 }

@@ -3,7 +3,10 @@ import { graphqlHTTP } from 'express-graphql';
 import schema from './graphql/schema';
 import { root } from './resolvers';
 
+const cors = require('cors');
 const server = express();
+
+server.use(cors());
 
 // setup graphql
 server.use(
