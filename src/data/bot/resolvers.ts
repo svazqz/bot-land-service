@@ -20,7 +20,7 @@ const createBot = async (args: Omit<Bot, 'id'>): Promise<Bot | undefined> => {
   );
 
   if (id) {
-    const bot = { id: '', ...args };
+    const bot = { id, ...args };
     await BotModel.insertBot(bot);
     return bot;
   }
