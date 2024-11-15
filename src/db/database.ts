@@ -1,8 +1,5 @@
-const pets: {
-  id: string;
-  name: string;
-  description: string;
-  flow: string;
-}[] = [];
+import { Bot } from '../data/bot/types';
+
+const pets: Bot[] = [];
 
 export default pets;

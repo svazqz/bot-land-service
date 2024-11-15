@@ -1,6 +1,10 @@
-import { fetchGraphQL } from '../utils/fetchGraphQL';
+import { fetchGraphQL } from '../../utils/fetchGraphQL';
 
-export async function createAndDeployService(projectId: string, repo: string) {
+export async function createAndDeployService(
+  projectId: string,
+  repo: string,
+  botToken: string,
+) {
   try {
     const createServiceResponse = await fetchGraphQL(
       `
@@ -14,6 +18,11 @@ export async function createAndDeployService(projectId: string, repo: string) {
         input: {
           projectId,
           source: { repo },
+          variables: {
+            TURSO_DATABASE_URL: process.env.TURSO_DATABASE_URL,
+            TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN,
+            TELEGRAM_BOT_TOKEN: botToken,
+          },
         },
       },
     );

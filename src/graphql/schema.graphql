@@ -3,6 +3,7 @@ type Bot {
   name: String!
   description: String!
   flow: String!
+  token: String!
 }
 
 type Query {
@@ -11,7 +12,12 @@ type Query {
 }
 
 type Mutation {
-  createBot(name: String!, description: String!, flow: String!): Bot!
+  createBot(
+    name: String!
+    description: String!
+    flow: String!
+    token: String!
+  ): Bot!
   updateBot(description: String!, flow: String!): Bot!
-  deletePet(id: ID!): ID!
+  deleteBot(id: ID!): ID!
 }
