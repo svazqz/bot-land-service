@@ -1,13 +1,14 @@
-import bots from '../../db/database';
-import { getProjectInfo } from '../../services/railway/getProjectInfo';
 import { Bot } from './types';
 import { createAndDeployService } from '../../services/railway/createAndDeployService';
+import { BotModel } from './model';
 
 const getBot = (args: { id: string }): Bot | undefined => {
-  return bots.find((bot) => bot.id === args.id);
+  // ToDo
+  return undefined;
 };
 
-const getBots = async (): Promise<Bot[]> => {
+const getBots = async () => {
+  const bots = await BotModel.getBotList();
   return bots;
 };
 
@@ -19,33 +20,20 @@ const createBot = async (args: Omit<Bot, 'id'>): Promise<Bot | undefined> => {
   );
 
   if (id) {
-    // create pet object and save
     const bot = { id: '', ...args };
-    bots.push(bot);
+    await BotModel.insertBot(bot);
     return bot;
   }
 };
 
-const updateBot = (args: Omit<Bot, 'name'>): Bot => {
-  // loop through pets array and get object of pet
-  const index = bots.findIndex((bot) => bot.id === args.id);
-  const bot = bots[index];
-
-  // update field if it is passed as an argument
-  if (args.description) bot.description = args.description;
-  if (args.flow) bot.flow = args.flow;
-
-  return bot;
+const updateBot = (args: Omit<Bot, 'name'>): Bot | undefined => {
+  // ToDo
+  return undefined;
 };
 
-const deleteBot = (args: Pick<Bot, 'id'>): string => {
-  // loop through pets array and delete pet with id
-  const index = bots.findIndex((bot) => bot.id === args.id);
-  if (index !== -1) {
-    bots.splice(index, 1);
-  }
-
-  return args.id;
+const deleteBot = (args: Pick<Bot, 'id'>): string | undefined => {
+  // ToDo
+  return undefined;
 };
 
 export const botResolvers = {
